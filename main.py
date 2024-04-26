@@ -15,6 +15,9 @@ def center_window(window, width, height):
 def mainMenu():
     for widget in root.winfo_children():
         widget.destroy()
+    
+    login_label = tk.Label(root, text="Main Menu")
+    login_label.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
 
     login_button = tk.Button(root, text="Login", command=adminLogin)
     login_button.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
@@ -46,7 +49,6 @@ def adminLogin():
     back_button.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
 
 def login(username, password):
-    # Check if the username and password exist in the CSV file
     with open('AdminDatabase.csv', mode='r') as file:
         csv_reader = csv.reader(file)
         for row in csv_reader:
@@ -79,7 +81,6 @@ def adminRegister():
     back_button.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
 
 def register(username, password):
-    # Check if the username already exists
     with open('AdminDatabase.csv', mode='r') as file:
         csv_reader = csv.reader(file)
         for row in csv_reader:
@@ -87,7 +88,6 @@ def register(username, password):
                 messagebox.showerror("Error", "Username already exists")
                 return
 
-    # If username is unique, write it to the CSV file
     with open('AdminDatabase.csv', mode='a', newline='') as file:
         writer = csv.writer(file)
         writer.writerow([username, password])
