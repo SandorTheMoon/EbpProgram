@@ -15,6 +15,9 @@ def center_window(window, width, height):
 def mainMenu():
     for widget in root.winfo_children():
         widget.destroy()
+
+    def exit():
+        root.destroy()
     
     main_menu_frame = tk.Frame(root, bg="#f0f0f0", padx=20, pady=20)
     main_menu_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
@@ -28,10 +31,22 @@ def mainMenu():
     register_button = tk.Button(main_menu_frame, text="Register", command=adminRegister, width=15, font=("Helvetica", 12))
     register_button.grid(row=1, column=1, pady=10)
 
+    exit_button = tk.Button(main_menu_frame, text="Exit", command=exit, width=15, font=("Helvetica", 12))
+    exit_button.grid(row=2, columnspan=2, pady=10)
+
 # ADMIN LOGIN
 def adminLogin():
     for widget in root.winfo_children():
         widget.destroy()
+
+    def checkData():
+        check_username_entry = username_entry.get()
+        check_password_entry = password_entry.get()
+
+        if not check_username_entry or not check_password_entry:
+            messagebox.showerror("Error", "Please fill out all of the necessary informations!")
+        else:
+            login(check_username_entry, check_password_entry)
 
     login_frame = tk.Frame(root, bg="#f0f0f0", padx=20, pady=20)
     login_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
@@ -49,7 +64,7 @@ def adminLogin():
     password_entry = tk.Entry(login_frame, show="*", font=("Helvetica", 12))
     password_entry.grid(row=2, column=1, pady=5)
 
-    register_button = tk.Button(login_frame, text="Login", command=lambda: login(username_entry.get(), password_entry.get()), width=10, font=("Helvetica", 12))
+    register_button = tk.Button(login_frame, text="Login", command=checkData, width=10, font=("Helvetica", 12))
     register_button.grid(row=3, columnspan=2, pady=10)
 
     back_button = tk.Button(login_frame, text="Back", command=mainMenu, width=10, font=("Helvetica", 12))
@@ -76,8 +91,8 @@ def AdminWindow():
     def modify_inventory():
         messagebox.showinfo("Modify Inventory", "Inventory modified.")
 
-    def exit_application():
-        root.destroy()
+    def logout():
+        mainMenu()
 
     welcome_label = tk.Label(root, text="Welcome Admin!", font=("Helvetica", 18))
     welcome_label.place(relx=0.5, rely=0.2, anchor=tk.CENTER)
@@ -88,13 +103,22 @@ def AdminWindow():
     modify_inventory_btn = tk.Button(root, text="Modify Inventory", command=modify_inventory, width=15, height=2, font=("Helvetica", 12))
     modify_inventory_btn.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-    exit_btn = tk.Button(root, text="Exit", command=exit_application, width=15, height=2, font=("Helvetica", 12))
+    exit_btn = tk.Button(root, text="Log out", command=logout, width=15, height=2, font=("Helvetica", 12))
     exit_btn.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
 
 # REGISTER
 def adminRegister():
     for widget in root.winfo_children():
         widget.destroy()
+
+    def checkData():
+        check_username_entry = username_entry.get()
+        check_password_entry = password_entry.get()
+
+        if not check_username_entry or not check_password_entry:
+            messagebox.showerror("Error", "Please fill out all of the necessary informations!")
+        else:
+            register(check_username_entry, check_password_entry)
 
     register_frame = tk.Frame(root, bg="#f0f0f0", padx=20, pady=20)
     register_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
@@ -112,7 +136,7 @@ def adminRegister():
     password_entry = tk.Entry(register_frame, show="*", font=("Helvetica", 12))
     password_entry.grid(row=2, column=1, pady=5)
 
-    register_button = tk.Button(register_frame, text="Register", command=lambda: register(username_entry.get(), password_entry.get()), width=10, font=("Helvetica", 12))
+    register_button = tk.Button(register_frame, text="Register", command=checkData, width=10, font=("Helvetica", 12))
     register_button.grid(row=3, columnspan=2, pady=10)
 
     back_button = tk.Button(register_frame, text="Back", command=mainMenu, width=10, font=("Helvetica", 12))
@@ -140,7 +164,7 @@ def register(username, password):
                     return
 
         writer.writerow([username, password])
-    messagebox.showinfo("Success", "Registered successfully")
+    messagebox.showinfo("Success", "You've Registered Successfully")
 root = tk.Tk()
 root.title("Login Panel")
 
@@ -149,5 +173,4 @@ window_height = 500
 center_window(root, window_width, window_height)
 
 mainMenu()
-
 root.mainloop()
